@@ -1,5 +1,5 @@
 <template>
-  <div class="hello">
+  <div class="main">
     <p>
       For a guide and recipes on how to configure / customize this project,<br>
       check out the
@@ -7,8 +7,8 @@
     </p>
     <h3>Installed CLI Plugins</h3>
     <ul>
-      <li v-for="_ in initCount" :key="_">
-        <ListItem :num="_" />
+      <li v-for="nbr in stockList" :key="nbr">
+        <StockCard :code="nbr" />
       </li>
     </ul>
     <h3>Essential Links</h3>
@@ -19,15 +19,18 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import ListItem from './ListItem.vue';
+import StockCard from './StockCard.vue';
 
 export default Vue.extend({
-  components: { ListItem },
-  name: 'HelloWorld',
-  data() {
-    return {
-      initCount: [0,1,2,3],
-    };
+  components: { StockCard },
+  name: 'CardView',
+  computed: {
+    stockList(): string[] {
+      return this.$store.getters.stockList;
+    },
+    // stockData(): Map<String,Stock> {
+    //   return this.$store.getters.stockData;
+    // },
   },
 });
 </script>

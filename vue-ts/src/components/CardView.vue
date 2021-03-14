@@ -33,16 +33,16 @@ export default Vue.extend({
   name: 'CardView',
   props: {
     stockIds: {
-      type: [],
+      type: Array,
       required: true,
-      default: [],
+      default: () => [],
     },
   },
   computed: {
-    allStockIds(): Array<string> {
-      return this.$store.getters.stockIds;
+    allStockIds(): string[] {
+      return this.$store.getters.stockList;
     },
-    allStocks(): Array<Stock> {
+    allStocks(): Stock[] {
       return Array.from(this.$store.getters.stockMap.values());
     },
   },

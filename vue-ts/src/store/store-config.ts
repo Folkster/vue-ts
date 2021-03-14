@@ -3,12 +3,10 @@ import { StoreOptions } from 'vuex';
 // type import????????
 import {
   Stock,
-  uuid,
 } from '../types/index';
 
 // Store state type import
 import {
-  DataState,
   RootState,
 } from './types/index';
 
@@ -55,7 +53,7 @@ const storeConfig: StoreOptions<RootState> = {
   mutations: {
     [SET_NEW_STOCK_DATA](state, incomingStock): void {
       const stock: Stock = incomingStock;
-      stock.id = uuid();
+      stock.id = stock.code + String(stock.lastUpdate);
       state.stockIdList.push(stock.code);
       state.stockData.stockIdMap.set(stock.code, stock);
     },

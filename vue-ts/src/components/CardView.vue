@@ -12,8 +12,8 @@
       </div>
       <div class="cardview-box cardview-box-stocks">
         <ul>
-          <li v-for="stockData in allStocks" :key="stockData.id">
-            <StockCard :code="stockData.code" />
+          <li v-for="(stockCode, _) in allStockIds" :key="_">
+            <StockCard :code="stockCode" />
           </li>
         </ul>
       </div>
@@ -39,12 +39,14 @@ export default Vue.extend({
     },
   },
   computed: {
+    allStockIds(): Array<string> {
+      return this.$store.getters.stockIds;
+    },
     allStocks(): Array<Stock> {
-      const stocks: Map<string, Stock> = this.$store.getters.stockMap;
-      return stocks.values.length >= 0 ? Array.from(stocks.values()) : [];
+      return Array.from(this.$store.getters.stockMap.values());
     },
   },
-  mounted() {
+  created() {
     this.stockIds.forEach((item) => {
       if (item != null && String(item).trim().length > 2) {
         this.$store.dispatch(LOAD_STATIC_DATA, item);

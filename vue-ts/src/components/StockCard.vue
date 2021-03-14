@@ -1,9 +1,9 @@
 <template>
-  <div class="stock-main" v-bind:id="'stock-' + currentStock?.id">
-      <h3 class=stock-header>{{currentStock?.name}}</h3>
-      <p class="stock-code">{{"CODE: " + currentStock?.code}}</p>
-      <p class="stock-price">{{"PRICE: " + currentStock?.price}}</p>
-      <p class="stock-update">{{"PRICE: " + currentStock?.lastUpdate}}</p>
+  <div class="stock-main">
+      <h3 class=stock-header>{{currentStock ? currentStock.name : ''}}</h3>
+      <!-- <p class="stock-code">{{'CODE: ' + currentStock ? currentStock?.code : ''}}</p>
+      <p class="stock-price">{{'PRICE: ' + currentStock ? currentStock?.price : ''}}</p>
+      <p class="stock-update">{{'PRICE: ' + currentStock ? currentStock?.lastUpdate : ''}}</p> -->
       <button @click="getNewPrice">Refresh Price</button>
       <ul class=stock-price-history>
         <li class="stock-price-history-item"></li>
@@ -22,6 +22,7 @@ export default Vue.extend({
     code: {
       type: String,
       required: true,
+      default: '',
     },
   },
   data() {

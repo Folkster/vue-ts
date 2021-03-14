@@ -16,7 +16,7 @@ export default Vue.extend({
   },
   computed: {
     stockList(): string[] {
-      return this.$store.getters.stockList;
+      return this.$store.getters.stockList as string[];
     },
   },
   created() {

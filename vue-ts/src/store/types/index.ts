@@ -4,18 +4,17 @@ import {
 
 export interface DataState {
   hasData: boolean;
-  stocks: Map<String,Stock>;
-  fetches: FetchState[];
+  stockIdMap: Map<string, Stock>;
 }
 
 export interface RootState {
-  myStocks: String[];
-  dataState: DataState;
+  stockIdList: string[];
+  stockData: DataState;
 }
 
 export interface FetchState {
-  id: number,
-  stockCode: string
+  id: number;
+  stockCode: string;
   startTime: Date;
   endTime: Date;
   successFull: boolean;

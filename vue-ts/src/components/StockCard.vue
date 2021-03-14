@@ -1,27 +1,24 @@
 <template>
-  <div class="stock-main" v-bind:id="'stock-' + code">
-      <h3 class=stock-header>{{name}}</h3>
-      <p class="stock-code">{{"CODE: " + code}}</p>
-      <p class="stock-price">{{"PRICE: " + test}}</p>
+  <div class="stock-main" v-bind:id="'stock-' + currentStock?.id">
+      <h3 class=stock-header>{{currentStock?.name}}</h3>
+      <p class="stock-code">{{"CODE: " + currentStock?.code}}</p>
+      <p class="stock-price">{{"PRICE: " + currentStock?.price}}</p>
+      <p class="stock-update">{{"PRICE: " + currentStock?.lastUpdate}}</p>
       <button @click="getNewPrice">Refresh Price</button>
       <ul class=stock-price-history>
-        <li class="stock-price-history-item" ></li>
+        <li class="stock-price-history-item"></li>
       </ul>
   </div>
-
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
+// type import????????
+import { Stock } from '../types/index';
 
 export default Vue.extend({
   name: 'StockCard',
   props: {
-    name: {
-      type: String,
-      required: false,
-      default: 'Loading...',
-    },
     code: {
       type: String,
       required: true,
@@ -33,9 +30,9 @@ export default Vue.extend({
     };
   },
   computed: {
-    // currentPrice(): String {
-    //   return this.$store.getters.date;
-    // },
+    currentStock(): Stock | undefined {
+      return this.$store.getters.getStock(this.code);
+    },
     // priceHistory(): Map<Number,String> {
     //   return this.$store.state.bookingDialogModule.bookingDialog;
     // },

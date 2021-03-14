@@ -1,36 +1,55 @@
 <template>
-  <div class="main">
+  <div class="cardview-main">
+    <div class="cardview-header"></div>
+    <h1>My Stocks</h1>
     <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
+      Enter a stock ticker code in the Ticker Box if you want more stocks
     </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li v-for="nbr in stockList" :key="nbr">
-        <StockCard :code="nbr" />
-      </li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-    </ul>
+    <div class="cardview-body">
+      <div class="cardview-box cardview-box-ticker">
+        <h3>Ticker List</h3>
+        <ul></ul>
+      </div>
+      <div class="cardview-box cardview-box-stocks">
+        <ul>
+          <li v-for="stockData in allStocks" :key="stockData.id">
+            <StockCard :code="stockData.code" />
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
+import { LOAD_STATIC_DATA } from '@/store/action-types';
+import { Stock } from '../types/index';
 import StockCard from './StockCard.vue';
+// type import????????
 
 export default Vue.extend({
   components: { StockCard },
   name: 'CardView',
-  computed: {
-    stockList(): string[] {
-      return this.$store.getters.stockList;
+  props: {
+    stockIds: {
+      type: [],
+      required: true,
+      default: [],
     },
-    // stockData(): Map<String,Stock> {
-    //   return this.$store.getters.stockData;
-    // },
+  },
+  computed: {
+    allStocks(): Array<Stock> {
+      const stocks: Map<string, Stock> = this.$store.getters.stockMap;
+      return stocks.values.length >= 0 ? Array.from(stocks.values()) : [];
+    },
+  },
+  mounted() {
+    this.stockIds.forEach((item) => {
+      if (item != null && String(item).trim().length > 2) {
+        this.$store.dispatch(LOAD_STATIC_DATA, item);
+      }
+    });
   },
 });
 </script>
